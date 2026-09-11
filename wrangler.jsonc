@@ -3,20 +3,5 @@
   "name": "veloscore",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "directory": "./dist",
-    "binding": "ASSETS"
-  },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "veloscore-db",
-      "database_id": "PLACEHOLDER_D1_DATABASE_ID",
-      "migrations_dir": "migrations"
-    }
-  ],
-  "vars": {
-    "SPORTS_PROVIDER": "mock",
-    "ADSENSE_PUBLISHER_ID": "pub-XXXXXXXXXXXXXXXX"
-  }
+  "pages_build_output_dir": "./dist"
 }
