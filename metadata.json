@@ -1,0 +1,6 @@
+{
+  "name": "VeloScore - Live Scores & Sports Data",
+  "description": "High-performance multi-sport live scores, real-time match events, standings, lineups, and statistical coverage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
