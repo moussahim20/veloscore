@@ -7,7 +7,7 @@ import type {
   StandingRow,
   RealtimeScoreDelta,
 } from './types/sports';
-import { defaultMockProvider } from './services/providers/MockSportsProvider';
+import { getSportsProvider } from './services/providers/SportsProviderFactory';
 import { realtimeService } from './services/realtime/RealtimeService';
 import { FavoritesService } from './services/favorites/FavoritesService';
 
@@ -66,9 +66,10 @@ export function App() {
   useEffect(() => {
     async function loadInitialData() {
       setIsLoading(true);
+      const provider = getSportsProvider();
       const [allCompetitions, allMatches] = await Promise.all([
-        defaultMockProvider.getCompetitions(currentSport),
-        defaultMockProvider.getMatchesByDate(selectedDate, currentSport),
+        provider.getCompetitions(currentSport),
+        provider.getMatchesByDate(selectedDate, currentSport),
       ]);
       setCompetitions(allCompetitions);
       setMatches(allMatches);
@@ -119,7 +120,7 @@ export function App() {
     setSelectedMatch(null);
     setSelectedTeam(null);
     setActiveTrustPage(null);
-    const standings = await defaultMockProvider.getStandings(comp.id);
+    const standings = await getSportsProvider().getStandings(comp.id);
     setCompStandings(standings);
     setSelectedCompView(comp);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -130,7 +131,7 @@ export function App() {
     setSelectedMatch(null);
     setSelectedCompView(null);
     setActiveTrustPage(null);
-    const team = await defaultMockProvider.getTeamById(teamId);
+    const team = await getSportsProvider().getTeamById(teamId);
     if (team) {
       setSelectedTeam(team);
       window.scrollTo({ top: 0, behavior: 'smooth' });

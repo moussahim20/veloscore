@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Trophy, Shield, Calendar } from 'lucide-react';
 import type { Team, Competition, Match } from '../../types/sports';
-import { defaultMockProvider } from '../../services/providers/MockSportsProvider';
+import { getSportsProvider } from '../../services/providers/SportsProviderFactory';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -55,7 +55,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     }
 
     const timer = setTimeout(async () => {
-      const res = await defaultMockProvider.search(query);
+      const res = await getSportsProvider().search(query);
       setResults(res);
     }, 150);
 
