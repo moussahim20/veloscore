@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft, Trophy } from 'lucide-react';
 import type { Competition, StandingRow } from '../../types/sports';
 import { AdSlot } from '../ads/AdSlot';
+import { CountryFlag } from '../common/CountryFlag';
 
 interface CompetitionViewProps {
   competition: Competition;
@@ -38,11 +39,22 @@ export const CompetitionView: React.FC<CompetitionViewProps> = ({
 
       {/* Competition Info Header */}
       <div className="px-4 py-6 sm:px-8 bg-linear-to-b from-slate-50 dark:from-slate-900/40 to-white dark:to-[#0f172a] border-b border-slate-200 dark:border-slate-800 flex items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-2xl shadow-xs border border-slate-200 dark:border-slate-700">
-          {competition.countryFlag || '🏆'}
+        <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center p-2 shadow-xs border border-slate-200 dark:border-slate-700">
+          <CountryFlag
+            countryName={competition.countryName}
+            countryCode={competition.countryId}
+            flagUrl={competition.countryFlag}
+            className="w-10 h-7 object-cover shadow-xs"
+          />
         </div>
         <div>
           <div className="flex items-center gap-2">
+            <CountryFlag
+              countryName={competition.countryName}
+              countryCode={competition.countryId}
+              flagUrl={competition.countryFlag}
+              className="w-3.5 h-2.5 shadow-xs"
+            />
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
               {competition.countryName}
             </span>
@@ -109,13 +121,31 @@ export const CompetitionView: React.FC<CompetitionViewProps> = ({
                     </span>
                   </td>
 
-                  {/* Team Name */}
+                  {/* Team Name & Logo */}
                   <td className="py-2.5 px-2">
                     <button
                       onClick={() => onOpenTeam(row.team.id)}
-                      className="text-left font-bold text-slate-900 dark:text-slate-100 hover:text-emerald-500 transition-colors truncate max-w-[160px] sm:max-w-none"
+                      className="flex items-center gap-2 text-left font-bold text-slate-900 dark:text-slate-100 hover:text-emerald-500 transition-colors truncate max-w-[160px] sm:max-w-none group"
                     >
-                      {row.team.name}
+                      <div className="w-5 h-5 shrink-0 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-0.5 overflow-hidden border border-slate-200/60 dark:border-slate-700/60">
+                        {row.team.logo ? (
+                          <img
+                            src={row.team.logo}
+                            alt={row.team.name}
+                            className="w-full h-full object-contain"
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-[9px] font-mono text-slate-500">
+                            {row.team.code?.substring(0, 2) || row.team.shortName.substring(0, 2)}
+                          </span>
+                        )}
+                      </div>
+                      <span className="truncate">{row.team.name}</span>
                     </button>
                   </td>
 

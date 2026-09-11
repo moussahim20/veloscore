@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import type { Match, MatchEvent, TeamLineup } from '../../types/sports';
 import { AdSlot } from '../ads/AdSlot';
+import { CountryFlag } from '../common/CountryFlag';
 
 interface MatchDetailViewProps {
   match: Match;
@@ -88,9 +89,15 @@ export const MatchDetailView: React.FC<MatchDetailViewProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => onOpenCompetition(match.competition.id)}
-            className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 underline-offset-2 hover:underline truncate max-w-[200px]"
+            className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 underline-offset-2 hover:underline truncate max-w-[240px]"
           >
-            {match.competition.name}
+            <CountryFlag
+              countryName={match.competition.countryName}
+              countryCode={match.competition.countryId}
+              flagUrl={match.competition.countryFlag}
+              className="w-4 h-3 shrink-0 shadow-2xs"
+            />
+            <span className="truncate">{match.competition.name}</span>
           </button>
           <button
             onClick={() => onToggleFavorite(match.id)}
@@ -136,8 +143,24 @@ export const MatchDetailView: React.FC<MatchDetailViewProps> = ({
               onClick={() => onOpenTeam(match.homeTeam.id)}
               className="group flex flex-col items-center focus:outline-none"
             >
-              <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-lg sm:text-2xl font-extrabold text-slate-800 dark:text-slate-200 group-hover:scale-105 group-hover:border-emerald-500 transition-all shadow-xs mb-2">
-                {match.homeTeam.code?.substring(0, 3) || match.homeTeam.shortName.substring(0, 2)}
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-lg sm:text-2xl font-extrabold text-slate-800 dark:text-slate-200 group-hover:scale-105 group-hover:border-emerald-500 transition-all shadow-xs mb-2 p-2 relative overflow-hidden">
+                {match.homeTeam.logo ? (
+                  <img
+                    src={match.homeTeam.logo}
+                    alt={match.homeTeam.name}
+                    className="w-full h-full object-contain"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                      const fallback = (e.currentTarget as HTMLElement).nextElementSibling;
+                      if (fallback) (fallback as HTMLElement).style.display = 'block';
+                    }}
+                  />
+                ) : null}
+                <span className={match.homeTeam.logo ? 'hidden' : 'block'}>
+                  {match.homeTeam.code?.substring(0, 3) || match.homeTeam.shortName.substring(0, 2)}
+                </span>
               </div>
               <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
                 {match.homeTeam.name}
@@ -195,8 +218,24 @@ export const MatchDetailView: React.FC<MatchDetailViewProps> = ({
               onClick={() => onOpenTeam(match.awayTeam.id)}
               className="group flex flex-col items-center focus:outline-none"
             >
-              <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-lg sm:text-2xl font-extrabold text-slate-800 dark:text-slate-200 group-hover:scale-105 group-hover:border-emerald-500 transition-all shadow-xs mb-2">
-                {match.awayTeam.code?.substring(0, 3) || match.awayTeam.shortName.substring(0, 2)}
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-lg sm:text-2xl font-extrabold text-slate-800 dark:text-slate-200 group-hover:scale-105 group-hover:border-emerald-500 transition-all shadow-xs mb-2 p-2 relative overflow-hidden">
+                {match.awayTeam.logo ? (
+                  <img
+                    src={match.awayTeam.logo}
+                    alt={match.awayTeam.name}
+                    className="w-full h-full object-contain"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                      const fallback = (e.currentTarget as HTMLElement).nextElementSibling;
+                      if (fallback) (fallback as HTMLElement).style.display = 'block';
+                    }}
+                  />
+                ) : null}
+                <span className={match.awayTeam.logo ? 'hidden' : 'block'}>
+                  {match.awayTeam.code?.substring(0, 3) || match.awayTeam.shortName.substring(0, 2)}
+                </span>
               </div>
               <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
                 {match.awayTeam.name}

@@ -45,7 +45,17 @@ export function App() {
   // Search & Settings State
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem('veloscore_theme');
+      if (stored !== null) {
+        return stored === 'dark';
+      }
+    } catch {
+      // ignore
+    }
+    return true;
+  });
 
   // Data State
   const [matches, setMatches] = useState<Match[]>([]);
@@ -53,12 +63,22 @@ export function App() {
   const [favoriteMatches, setFavoriteMatches] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Synchronize Dark Mode on HTML tag
+  // Synchronize Dark Mode on HTML tag and localStorage
   useEffect(() => {
+    const root = document.documentElement;
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      root.classList.remove('light');
+      root.style.colorScheme = 'dark';
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
+      root.classList.add('light');
+      root.style.colorScheme = 'light';
+    }
+    try {
+      localStorage.setItem('veloscore_theme', isDarkMode ? 'dark' : 'light');
+    } catch {
+      // ignore
     }
   }, [isDarkMode]);
 

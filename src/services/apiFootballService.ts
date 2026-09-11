@@ -4,6 +4,7 @@ import type {
   MatchEvent,
   StandingRow,
 } from '../types/sports';
+import { getCountryFlagUrl } from '../utils/flags';
 
 interface CacheEntry<T> {
   data: T;
@@ -247,7 +248,8 @@ function normalizeFixture(item: any): Match {
       slug: l.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
       countryId: l.country ? l.country.substring(0, 3).toUpperCase() : 'INT',
       countryName: l.country || 'International',
-      countryFlag: l.flag ? '🌐' : '🏆',
+      countryFlag: l.flag || getCountryFlagUrl(l.country, l.country ? l.country.substring(0, 3) : undefined),
+      logo: l.logo,
       season: `${l.season || 2026}`,
       isTopLeague: [39, 140, 135, 78, 61, 2].includes(l.id),
     },
@@ -255,7 +257,7 @@ function normalizeFixture(item: any): Match {
       id: l.country ? l.country.substring(0, 3).toUpperCase() : 'INT',
       name: l.country || 'International',
       code: l.country ? l.country.substring(0, 3).toUpperCase() : 'INT',
-      flag: l.flag ? '🌐' : '🏆',
+      flag: l.flag || getCountryFlagUrl(l.country, l.country ? l.country.substring(0, 3) : undefined),
     },
     season: `${l.season || 2026}`,
     round: l.round || 'Regular Season',

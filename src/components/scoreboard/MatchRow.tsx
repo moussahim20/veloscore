@@ -102,7 +102,25 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         {/* Home Team */}
         <div className="flex items-center justify-between py-0.5">
           <div className="flex items-center gap-2 min-w-0 pr-2">
-            <span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-700 dark:text-slate-300 shrink-0">
+            {match.homeTeam.logo ? (
+              <img
+                src={match.homeTeam.logo}
+                alt={match.homeTeam.name}
+                className="w-5 h-5 object-contain shrink-0 rounded-xs"
+                referrerPolicy="no-referrer"
+                loading="lazy"
+                onError={(e) => {
+                  (e.currentTarget as HTMLElement).style.display = 'none';
+                  const sibling = (e.currentTarget as HTMLElement).nextElementSibling;
+                  if (sibling) (sibling as HTMLElement).style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <span
+              className={`w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-700 dark:text-slate-300 shrink-0 ${
+                match.homeTeam.logo ? 'hidden' : 'flex'
+              }`}
+            >
               {match.homeTeam.code?.substring(0, 3) || match.homeTeam.shortName.substring(0, 2)}
             </span>
             <span
@@ -138,7 +156,25 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         {/* Away Team */}
         <div className="flex items-center justify-between py-0.5">
           <div className="flex items-center gap-2 min-w-0 pr-2">
-            <span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-700 dark:text-slate-300 shrink-0">
+            {match.awayTeam.logo ? (
+              <img
+                src={match.awayTeam.logo}
+                alt={match.awayTeam.name}
+                className="w-5 h-5 object-contain shrink-0 rounded-xs"
+                referrerPolicy="no-referrer"
+                loading="lazy"
+                onError={(e) => {
+                  (e.currentTarget as HTMLElement).style.display = 'none';
+                  const sibling = (e.currentTarget as HTMLElement).nextElementSibling;
+                  if (sibling) (sibling as HTMLElement).style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <span
+              className={`w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-700 dark:text-slate-300 shrink-0 ${
+                match.awayTeam.logo ? 'hidden' : 'flex'
+              }`}
+            >
               {match.awayTeam.code?.substring(0, 3) || match.awayTeam.shortName.substring(0, 2)}
             </span>
             <span

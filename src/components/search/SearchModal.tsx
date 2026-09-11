@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Trophy, Shield, Calendar } from 'lucide-react';
 import type { Team, Competition, Match } from '../../types/sports';
 import { getSportsProvider } from '../../services/providers/SportsProviderFactory';
+import { CountryFlag } from '../common/CountryFlag';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -135,7 +136,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/70 text-left transition-colors text-xs"
                   >
                     <span className="flex items-center gap-2">
-                      <Trophy className="w-4 h-4 text-amber-500 shrink-0" />
+                      <CountryFlag
+                        countryName={comp.countryName}
+                        countryCode={comp.countryId}
+                        flagUrl={comp.countryFlag}
+                        className="w-4 h-3 shadow-2xs"
+                      />
                       <span className="font-semibold text-slate-900 dark:text-slate-100">
                         {comp.name}
                       </span>

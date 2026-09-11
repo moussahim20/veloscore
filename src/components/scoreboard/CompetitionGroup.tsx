@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Trophy } from 'lucide-react';
 import type { Competition, Match } from '../../types/sports';
 import { MatchRow } from './MatchRow';
+import { CountryFlag } from '../common/CountryFlag';
 
 interface CompetitionGroupProps {
   competition: Competition;
@@ -31,18 +32,26 @@ export const CompetitionGroup: React.FC<CompetitionGroupProps> = ({
     >
       {/* Group Header */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800/70 select-none">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="text-base shrink-0" role="img" aria-label={competition.countryName}>
-            {competition.countryFlag || '⚽'}
-          </span>
-          <div className="flex items-center gap-1.5 truncate">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <CountryFlag
+            countryName={competition.countryName}
+            countryCode={competition.countryId}
+            flagUrl={competition.countryFlag}
+            className="w-5 h-3.5 shadow-xs"
+            alt={competition.countryName}
+          />
+          <button
+            onClick={() => onOpenStandings(competition)}
+            className="flex items-center gap-1.5 truncate text-left hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+            title={`View ${competition.name} standings`}
+          >
             <span className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
               {competition.countryName.toUpperCase()}: {competition.name}
             </span>
             <span className="hidden sm:inline-block text-[11px] text-slate-400 font-medium">
               • {matches[0]?.round || competition.season}
             </span>
-          </div>
+          </button>
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
