@@ -4,7 +4,7 @@ interface Env {
   DB?: any;
 }
 
-export const onRequest: PagesFunction<Env> = async (context) => {
+export const onRequest = async (context: any) => {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname;
